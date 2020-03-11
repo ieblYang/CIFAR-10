@@ -18,9 +18,10 @@ def resnet_blockneck(net, numout, down, stride, is_training):
                 normalizer_params=batch_norm_params):
         with slim.arg_scope([slim.batch_norm], **batch_norm_params):
             with slim.arg_scope([slim.conv2d, slim.max_pool2d], padding='SAME') as arg_sc:
-
+				
+				#将输入的特征图进行备份
                 shortcut = net
-
+				#对备份后的图进行卷积和池化的判断
                 if numout != net.get_shape().as_list()[-1]:
                     shortcut = slim.conv2d(net, numout, [1, 1])
 
@@ -34,7 +35,7 @@ def resnet_blockneck(net, numout, down, stride, is_training):
 
                 if stride != 1:
                     net = slim.max_pool2d(net, [3, 3], stride=stride)
-
+				#跳连
                 net = net + shortcut
 
                 return net
@@ -42,10 +43,10 @@ def resnet_blockneck(net, numout, down, stride, is_training):
 
 def model_resnet(net, keep_prob=0.5, is_training = True):
     with slim.arg_scope([slim.conv2d, slim.max_pool2d], padding='SAME') as arg_sc:
-
+		#第一个卷积一般为标准卷积
         net = slim.conv2d(net, 64, [3, 3], activation_fn=tf.nn.relu)
         net = slim.conv2d(net, 64, [3, 3], activation_fn=tf.nn.relu)
-
+		#后续的采用resnet结构进行替换
         net = resnet_blockneck(net, 128, 4, 2, is_training)
         net = resnet_blockneck(net, 128, 4, 1, is_training)
         net = resnet_blockneck(net, 256, 4, 2, is_training)

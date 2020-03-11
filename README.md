@@ -7,5 +7,12 @@ data_manager:
   &emsp;&emsp;reader_cifar10-2       &emsp;&emsp;&emsp;&emsp;通过string_input_producer从文件中读取数据  
   
 cifar10：
+<<<<<<< HEAD
   
+=======
+  &emsp;&emsp;readcifar10  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过TensorFlow对TFRecord打包过的数据进行解析
+  &emsp;&emsp;train         &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&emsp;&emsp;&emsp;训练 
+  &emsp;&emsp;resnet        &emsp;&emsp;&emsp;&emsp;resnet网络结构
+  &emsp;&emsp;test       &emsp;&emsp;&emsp;&emsp;测试
+>>>>>>> add explanatory note
   

@@ -24,24 +24,30 @@ def read(batchsize=64, type=1, no_aug_data=1):
     img_batch = tf.decode_raw(images, tf.uint8)
     img_batch = tf.cast(img_batch, tf.float32)
     img_batch = tf.reshape(img_batch, [batchsize, 32, 32, 3])
-
+	
+	"""如果从训练集中读取，则添加数据增强"""
     if type == 0 and no_aug_data == 1:
-        distorted_image = tf.random_crop(img_batch,						#随机裁剪
+		#随机裁剪
+        distorted_image = tf.random_crop(img_batch,						
                                          [batchsize, 28, 28, 3])	
-        distorted_image = tf.image.random_contrast(distorted_image,		#随机对比度
+        #随机对比度
+		distorted_image = tf.image.random_contrast(distorted_image,	
                                                    lower=0.8,
-                                                   upper=1.2)
-        distorted_image = tf.image.random_hue(distorted_image,			#随机色调
-                                              max_delta=0.2)
-        distorted_image = tf.image.random_saturation(distorted_image,	#随机饱和度
+												   upper=1.2)
+        #随机色调
+		distorted_image = tf.image.random_hue(distorted_image,
+                                      max_delta=0.2)
+        #随机饱和度
+		distorted_image = tf.image.random_saturation(distorted_image,
                                                      lower=0.8,
                                                      upper=1.2)
-        img_batch = tf.clip_by_value(distorted_image, 0, 255)
-
+        #对处理过的图像约束取值范围
+		img_batch = tf.clip_by_value(distorted_image, 0, 255)
+	
     img_batch = tf.image.resize_images(img_batch, [32, 32])
     label_batch = tf.cast(features['label'], tf.int64)
 
-    #-1,1
+    #将图片的数据范围处理到-1——1之间
     img_batch = tf.cast(img_batch, tf.float32) / 128.0 - 1.0
     #
     return img_batch, label_batch
