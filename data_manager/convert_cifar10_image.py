@@ -62,7 +62,7 @@ DATA_DIR = 'data'
 #download_and_uncompress_tarball(DATA_URL, DATA_DIR)
 
 #指定文件夹的路径
-folders = '/home/PycharmProject/data_manager/data/cifar-10-batches-py'
+folders = '/root/FaceAI/data_manager/data/cifar-10-batches-py'
 
 #获取当前文件夹下所有的训练样本
 trfiles = glob.glob(folders + "/data_batch*")
